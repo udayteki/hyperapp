@@ -2,25 +2,15 @@ import './style.css'
 import Link from '../Link'
 import SmartLink from '../SmartLink'
 import { Navigate, OpenMenu, CloseMenu } from '../../actions'
-import { Select } from '../../effects'
 
 const OnSearch = (state, ev) => {
   ev.preventDefault()
-  return Navigate(
-    state,
-    `/search?q=${encodeURI(ev.target.search.value)}`,
-    Select({selector: '#search'})
-  )
-}
-
-const OnFocus = (state, ev) => {
-  return [
-    state,
-    Select({selector: '#search'})
-  ]
+  return [Navigate, `/search?q=${encodeURI(ev.target.value)}`]
 }
 
 export default ({ menuOpened, location }) => {
+  console.log(location)
+
   return (
     <header class={{
       'site-header': true,
@@ -48,21 +38,16 @@ export default ({ menuOpened, location }) => {
         <SmartLink to="/sponsor">sponsor</SmartLink>
         <SmartLink to="/guides">guides</SmartLink>
         <SmartLink to="/api">api</SmartLink>
-        <form
-          class="search-form"
-          onsubmit={OnSearch}
-        >
-          <input
-            type="text"
-            id="search"
-            name="search"
-            class="search-field"
-            placeholder="search"
-            value={location.queryParams.q}
-            onfocus={OnFocus}
-            required
-          />
-        </form>
+        <input
+          type="text"
+          id="search"
+          name="search"
+          class="search-field"
+          placeholder="search"
+          value={location.queryParams.q}
+          oninput={OnSearch}
+          required
+        />
       </nav>
     </header>
   )

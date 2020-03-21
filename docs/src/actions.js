@@ -28,11 +28,10 @@ export const SetSearchData = (state, searchData) => ({
   searchData
 })
 
-export const Navigate = (state, to, ...extraEffects) => [
+export const Navigate = (state, to) => [
   CloseMenu(ParseUrl(state, to)),
   [
     UpdateHistory({ to }),
-    HighLight(),
-    ...extraEffects
+    HighLight()
   ]
 ]
